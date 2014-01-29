@@ -1,3 +1,8 @@
+/*
+	By Shane Skikne 1/29/14
+	For Software Systems. Olin
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 int main()
