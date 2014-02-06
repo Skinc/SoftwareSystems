@@ -6,30 +6,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-int main()
-{
-	char card_name[3];
-	int count = 0;
-	while (card_name[0] != 'X'){
-		puts("Enter the card_name: ");
-		scanf("%2s", card_name);
-		int card_Val = checkCard(card_name);
-		if (card_Val > -1){
-			count =	updateCount(card_Val, count);
-			printf("Current count:%i\n", count);
-
-		}
-		
-	}
-	return 0;
-}
-
 // checkCard takes a card Char and checks if it is a valid card. 
 //If the card is valid, checkCard returns its value in BlackJack. If the card is invalid, it returns -1.
 int checkCard(char card[3]){
 	int val = 0;
 	switch(card[0]){
-	case 'K':
+		case 'K':
 	case 'Q':
 	case 'J':
 		val = 10;
@@ -59,4 +41,23 @@ int updateCount(int val, int count){
 			count--;
 	}
 	return count;
+}
+
+//main is the initial function. It takes the user's input and passes it off as needed. 
+int main()
+{
+	char card_name[3];
+	int count = 0;
+	while (card_name[0] != 'X'){
+		puts("Enter the card_name: ");
+		scanf("%2s", card_name);
+		int card_Val = checkCard(card_name);
+		if (card_Val > -1){
+			count =	updateCount(card_Val, count);
+			printf("Current count:%i\n", count);
+
+		}
+		
+	}
+	return 0;
 }
