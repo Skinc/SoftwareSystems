@@ -4,6 +4,21 @@ Copyright 2014 Allen Downey
 License: Creative Commons Attribution-ShareAlike 3.0
 
 */
+// * 
+//    http://en.wikipedia.org/wiki/Magic_square
+
+//    A magic square is an arrangement of numbers (usually integers) in a
+//    square grid, where the numbers in each row, and in each column, and
+//    the numbers in the forward and backward main diagonals, all add up
+//    to the same number. 
+
+//    Write a function called is_magic_square() that takes a matrix and 
+//    returns an int, 1 if the matrix is a magic square, and 0 otherwise.
+
+//    Feel free to use row_sum().
+// */
+
+
 
 
 #include <stdio.h>
@@ -155,6 +170,51 @@ double *row_sum(Matrix *A) {
     return res;
 }
 
+
+// Adds up the cols of A and returns a heap-allocated array of doubles.
+double *col_sum(Matrix *A) {
+    double total;
+    int i, j;
+
+    double *res = malloc(A->cols * sizeof(double));
+
+    for (i=0; i<A->cols; i++) {
+    total = 0.0;
+    for (j=0; j<A->rows; j++) {
+        total += A->data[j][i];
+    }
+    res[i] = total;
+    }
+    return res;
+}
+
+
+// Adds up the rows of A and returns a heap-allocated array of doubles.
+double *diag_sum(Matrix *A) {
+    double total;
+    int i;
+
+    double *res = malloc(2 * sizeof(double));
+
+    total = 0.0;
+    for (i=0; i<A->cols; i++) {
+    
+    total += A->data[i][i];
+    }
+    res[0] = total;
+    
+    total = 0.0;
+    
+    for (i=0; i<A->cols; i++) {
+    total += A->data[A->cols-i-1][i];
+    }
+
+    res[1] = total;
+    
+
+    return res;
+}
+
 /* 
    http://en.wikipedia.org/wiki/Magic_square
 
@@ -168,12 +228,34 @@ double *row_sum(Matrix *A) {
 
    Feel free to use row_sum().
 */
+int is_magic_square(Matrix *A){
+    double *colsums = col_sum(A);
+    double *rowsums = row_sum(A);
+    double *diagsums = diag_sum(A);
+    double comp = colsums[0];
+    int i;
+    for (i=0; i<A->cols; i++) {
+        if (colsums[i] != comp){
+            return 0;
+        }
+        if (rowsums[i] != comp){
+            return 0;
+        }
+    }
+    if (diagsums[0] != comp){
+        return 0;
+    }
 
+    if (diagsums[1] != comp){
+        return 0;
+    }
+    return 1;
+}
 
 int main() {
     int i;
 
-    Matrix *A = make_matrix(3, 4);
+    Matrix *A = make_matrix(3, 3);
     consecutive_matrix(A);
     printf("A\n");
     print_matrix(A);
@@ -182,7 +264,7 @@ int main() {
     printf("A + A\n");
     print_matrix(C);
 
-    Matrix *B = make_matrix(4, 3);
+    Matrix *B = make_matrix(3, 3);
     increment_matrix(B, 1);
     printf("B\n");
     print_matrix(B);
@@ -201,6 +283,22 @@ int main() {
     for (i=0; i<A->rows; i++) {
 	printf("row %d\t%lf\n", i, sums[i]);
     }
+    double *csums = col_sum(A);
+    for (i=0; i<A->cols; i++) {
+    printf("col %d\t%lf\n", i, csums[i]);
+    }
+    puts("test");
+    double *dsums = diag_sum(D);
+    puts("test");
+    
+    for (i=0; i<2; i++) {
+
+    puts("2");
+    printf("col %d\t%lf\n", i, dsums[i]);
+    }
+    printf("Is magic?%d\n", is_magic_square(D));
+
+    printf("Is magic?%d\n", is_magic_square(B));
     // should print 6, 22, 38
 
     return 0;
