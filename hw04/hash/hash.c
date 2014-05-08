@@ -316,7 +316,7 @@ void map_add(Map *map, Hashable *key, Value *value)
                     count++;
                     checkNode = checkNode->next;
                 }
-                //if there are less than two (numb I chose) nodes in the previous list, add it there.
+                //if there are less than two (number I chose) nodes in the previous list, add it there.
                 if (count < 2){
                     checkNode->next = newNode;
                 // Otherwise, start a new list. 
